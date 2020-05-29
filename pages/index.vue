@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto pt-12">
+  <div class="container mx-auto pt-12 font-mono">
     <time
-      class="text-huge leading-none select-none font-bold mt-3 block text-shadow font-mono"
+      class="text-huge leading-none select-none font-bold mt-3 block text-shadow "
     >
       {{ currenTime }}
     </time>
