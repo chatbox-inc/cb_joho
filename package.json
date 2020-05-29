@@ -21,7 +21,11 @@
     }
   },
   "dependencies": {
-    "nuxt": "^2.0.0"
+    "@nuxtjs/style-resources": "^1.0.0",
+    "fibers": "^5.0.0",
+    "nuxt": "^2.0.0",
+    "sass": "^1.26.7",
+    "sass-loader": "^8.0.2"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0",
