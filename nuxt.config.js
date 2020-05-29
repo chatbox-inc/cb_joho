@@ -32,12 +32,10 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: ['@nuxtjs/tailwindcss'],
-
-  Modules: ['@nuxtjs/eslint-module', '@nuxtjs/stylelint-module'],
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: ['@nuxtjs/eslint-module', '@nuxtjs/stylelint-module'],
   /*
    ** Build configuration
    */
