@@ -31,11 +31,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  devDependencies: [
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/stylelint-module',
-    '@nuxtjs/tailwindcss'
-  ],
+  devDependencies: ['@nuxtjs/eslint-module', '@nuxtjs/stylelint-module'],
   /*
    ** Nuxt.js modules
    */
