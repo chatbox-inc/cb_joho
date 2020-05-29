@@ -1,13 +1,11 @@
 <template>
   <div class="container mx-auto pt-12">
-    <h2 class="text-sm bg-red-400 inline-block p-2 text-white rounded">
-      現在時刻
-    </h2>
     <time
       class="text-huge leading-none select-none font-bold mt-3 block text-shadow font-mono"
     >
       {{ currenTime }}
     </time>
+    <p class="text-right text-4xl">{{ getDate }}</p>
     <button
       class="bg-blue-400 p-5 rounded text-white text-lg hover:bg-blue-600"
       @click.prevent="playSound"
@@ -26,6 +24,12 @@ export default {
       currenTime: null
     }
   },
+  computed: {
+    getDate() {
+      const date = this.$dayjs().format('YYYY年MM月DD日dddd')
+      return date
+    }
+  },
   mounted() {
     this.currenTime = this.setDate()
     setInterval(() => this.setDate(), 1000)
@@ -34,6 +38,7 @@ export default {
     setDate() {
       this.currenTime = this.$dayjs().format('HH:mm:ss')
     },
+
     playSound() {
       const audio = new Audio(sound)
       audio.play()
