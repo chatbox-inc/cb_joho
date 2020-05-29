@@ -3,3 +3,22 @@
 @import 'tailwindcss/components';
 /* purgecss end ignore */
 @import 'tailwindcss/utilities';
+
+@responsive {
+    
+  .text-huge-0 {
+    font-size: 2rem;
+  }
+
+  .text-huge-1 {
+      font-size:4rem;
+  }
+
+  .text-huge-2 {
+      font-size:10rem;
+  }
+
+  .text-huge-3 {
+      font-size:16rem
+  }
+}

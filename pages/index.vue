@@ -1,12 +1,16 @@
 <template>
   <div v-if="currenTime" class="container mx-auto pt-12 font-mono">
-    <p class="text-left text-4xl">{{ getDate }}</p>
+    <p class="lg:text-left  md:text-4xl sm:text-sm text-center">
+      {{ getDate }}
+    </p>
     <time
-      class="text-huge leading-none select-none font-bold mt-3 block text-shadow "
+      class="text-huge-0 text-center md:text-center xl:text-huge-3 md:text-huge-2 sm:text-huge-0 leading-none select-none font-bold mt-3 block "
     >
       {{ currenTime }}
     </time>
-    <div class="w-full flex pt-8">
+    <div
+      class="w-full flex pt-8 lg:justify-start sm:justify-center md:justify-end"
+    >
       <div class="px-3">
         <label for="mode">音声お知らせ</label>
         <input id="mode" v-model="alertMode" type="checkbox" />
@@ -82,9 +86,5 @@ export default {
 <style lang="scss" scoped>
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.text-huge {
-  font-size: 16rem;
 }
 </style>
