@@ -7,7 +7,7 @@
 https://github.com/chatbox-inc/cb_joho/projects/1
 
 ## 環境情報
-https://5ed08d64e20dbc00079b9320--goofy-elion-812f52.netlify.app/
+https://goofy-elion-812f52.netlify.app
 
 ## 各種資料
 https://tailwindcss.com/
