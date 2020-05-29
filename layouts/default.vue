@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="p-container">
     <TheHeader />
-    <div class="pt-24 bg-gray-100 p-container">
+    <div class="pt-24 bg-gray-100 flex-grow">
       <nuxt />
     </div>
     <TheFooter />
@@ -21,6 +21,8 @@ export default {
 
 <style lang="scss" scoped>
 .p-container {
-  min-height: 70vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>
