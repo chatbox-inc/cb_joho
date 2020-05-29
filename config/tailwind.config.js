@@ -1,5 +1,6 @@
 module.exports = {
   theme: {},
   variants: {},
-  plugins: []
+  plugins: [],
+  purge: ['./components/**/*.vue', './pages/**/*.vue', './layout/**/*.vue']
 }
