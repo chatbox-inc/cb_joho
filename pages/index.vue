@@ -31,18 +31,20 @@
     <div class="boreder mt-10">
       <h2 class="text-xl">Debug</h2>
       <p>alertMode : {{ alertMode }}</p>
-      <p>alertFrequency : {{ alertFrequency }} seconds</p>
+      <p>alertFrequency : {{ alertFrequency }} minutes</p>
     </div>
   </div>
 </template>
 
 <script>
-import sound from '@/assets/sound/test.mp3'
+import aws from 'aws-sdk'
+import dotenv from 'dotenv'
 export default {
   components: {},
   data() {
     return {
       currenTime: null,
+      canAlert: true,
       alertMode: false,
       alertFrequency: 30
     }
@@ -65,19 +67,58 @@ export default {
       this.currenTime = this.$dayjs().format('HH:mm:ss')
     },
 
-    playSound() {
-      const audio = new Audio(sound)
-      audio.play()
+    playSound(currentTime) {
+      dotenv.config()
+      const accesskey = process.env.AWS_ACCESS_KEY_ID
+      const secretKey = process.env.AWS_SECRET_ACCESS_KEY
+      const regionName = process.env.AWS_DEFAULT_REGION
+
+      aws.config.update({
+        accessKeyId: accesskey,
+        secretAccessKey: secretKey,
+        region: regionName
+      })
+      console.log('access:', accesskey)
+      console.log('region:', regionName)
+      console.log('secret:', secretKey)
+      const polly = new aws.Polly()
+      const params = {
+        OutputFormat: 'mp3',
+        Text: currentTime,
+        VoiceId: 'Mizuki',
+        SampleRate: '22050',
+        TextType: 'text',
+        LanguageCode: 'ja-JP'
+      }
+
+      polly.synthesizeSpeech(params, function(err, data) {
+        if (err) {
+          console.log(err, err.stack)
+        } else {
+          console.log(data)
+          const audioCtx = new AudioContext()
+          const source = audioCtx.createBufferSource()
+          source.buffer = data.AudioStream
+          source.connect(audioCtx.destination)
+          source.start()
+        }
+      })
     },
 
     checkAlert(currentTime) {
-      const minutes = currentTime.split(':')[2]
+      const eachTime = currentTime.split(':')
+      const minutes = eachTime[1]
       if (
         minutes % this.alertFrequency === 0 ||
         minutes === this.alertFrequency
       ) {
-        this.playSound()
+        if (this.canAlert) this.playSound(currentTime)
+        this.canAlert = false
+      } else {
+        this.canAlert = true
       }
+
+      console.log(this.canAlert)
     }
   }
 }
