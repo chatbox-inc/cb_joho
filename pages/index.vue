@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { PollyService } from '@/service/PollyService'
+import sound from '@/assets/sound/polly.mp3'
 export default {
   components: {},
   data() {
@@ -66,9 +66,8 @@ export default {
       this.currenTime = this.$dayjs().format('HH:mm:ss')
     },
 
-    playSound(currentTime) {
-      const soundPath = PollyService.makeVoice(currentTime)
-      const audio = new Audio(soundPath)
+    playSound() {
+      const audio = new Audio(sound)
       audio.play()
     },
 
@@ -79,7 +78,7 @@ export default {
         minutes % this.alertFrequency === 0 ||
         minutes === this.alertFrequency
       ) {
-        if (this.canAlert) this.playSound(currentTime)
+        if (this.canAlert) this.playSound()
         this.canAlert = false
       } else {
         this.canAlert = true
