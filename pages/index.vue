@@ -37,8 +37,7 @@
 </template>
 
 <script>
-import aws from 'aws-sdk'
-import dotenv from 'dotenv'
+import { PollyService } from '@/service/PollyService'
 export default {
   components: {},
   data() {
@@ -68,41 +67,9 @@ export default {
     },
 
     playSound(currentTime) {
-      dotenv.config()
-      const accesskey = process.env.AWS_ACCESS_KEY_ID
-      const secretKey = process.env.AWS_SECRET_ACCESS_KEY
-      const regionName = process.env.AWS_DEFAULT_REGION
-
-      aws.config.update({
-        accessKeyId: accesskey,
-        secretAccessKey: secretKey,
-        region: regionName
-      })
-      console.log('access:', accesskey)
-      console.log('region:', regionName)
-      console.log('secret:', secretKey)
-      const polly = new aws.Polly()
-      const params = {
-        OutputFormat: 'mp3',
-        Text: currentTime,
-        VoiceId: 'Mizuki',
-        SampleRate: '22050',
-        TextType: 'text',
-        LanguageCode: 'ja-JP'
-      }
-
-      polly.synthesizeSpeech(params, function(err, data) {
-        if (err) {
-          console.log(err, err.stack)
-        } else {
-          console.log(data)
-          const audioCtx = new AudioContext()
-          const source = audioCtx.createBufferSource()
-          source.buffer = data.AudioStream
-          source.connect(audioCtx.destination)
-          source.start()
-        }
-      })
+      const soundPath = PollyService.makeVoice(currentTime)
+      const audio = new Audio(soundPath)
+      audio.play()
     },
 
     checkAlert(currentTime) {
