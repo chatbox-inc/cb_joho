@@ -83,8 +83,6 @@ export default {
       } else {
         this.canAlert = true
       }
-
-      console.log(this.canAlert)
     }
   }
 }

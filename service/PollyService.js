@@ -24,14 +24,11 @@ const filePath = '../assets/sound/polly.mp3'
 polly.synthesizeSpeech(params, function(err, data) {
   if (err) {
     console.log(err, err.stack)
-  } else {
-    console.log(data)
-    if (data.AudioStream instanceof Buffer) {
-      fs.writeFile(filePath, data.AudioStream, (fsErr) => {
-        if (fsErr) {
-          console.error(err)
-        }
-      })
-    }
+  } else if (data.AudioStream instanceof Buffer) {
+    fs.writeFile(filePath, data.AudioStream, (fsErr) => {
+      if (fsErr) {
+        console.error(err)
+      }
+    })
   }
 })
