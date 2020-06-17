@@ -31,18 +31,19 @@
     <div class="boreder mt-10">
       <h2 class="text-xl">Debug</h2>
       <p>alertMode : {{ alertMode }}</p>
-      <p>alertFrequency : {{ alertFrequency }} seconds</p>
+      <p>alertFrequency : {{ alertFrequency }} minutes</p>
     </div>
   </div>
 </template>
 
 <script>
-import sound from '@/assets/sound/test.mp3'
+import sound from '@/assets/sound/polly.mp3'
 export default {
   components: {},
   data() {
     return {
       currenTime: null,
+      canAlert: true,
       alertMode: false,
       alertFrequency: 30
     }
@@ -71,12 +72,16 @@ export default {
     },
 
     checkAlert(currentTime) {
-      const minutes = currentTime.split(':')[2]
+      const eachTime = currentTime.split(':')
+      const minutes = eachTime[1]
       if (
         minutes % this.alertFrequency === 0 ||
         minutes === this.alertFrequency
       ) {
-        this.playSound()
+        if (this.canAlert) this.playSound()
+        this.canAlert = false
+      } else {
+        this.canAlert = true
       }
     }
   }
