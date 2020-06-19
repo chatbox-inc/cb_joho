@@ -12,7 +12,7 @@
     "lint": "run-p lint:*",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lintfix": "run-p lintfix:*",
-    "lintfix:js": "eslint --ext .js,.vue --ignore-path .gitignore ."
+    "lintfix:js": "eslint --fix --ext .js,.vue --ignore-path .gitignore ."
   },
   "lint-staged": {
     "*.{js,vue}": "npm run lintfix:js"
