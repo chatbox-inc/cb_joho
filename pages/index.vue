@@ -56,9 +56,9 @@
       <p>isAfternoon : {{ isAfternoon }}</p>
     </div>
 
-    <!--    <div class="footer">-->
-    <!--      <img src="../assets/images/_e_town0080_svg_town0080_5.svg">-->
-    <!--    </div>-->
+    <div class="footer">
+      <img src="../assets/images/_e_town0080_svg_town0080_5.svg" />
+    </div>
   </div>
 </template>
 
@@ -197,10 +197,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
-/*.footer {*/
-/*  position: absolute;*/
-/*  height: 10vh;*/
-/*  width: 100vh;*/
-/*  bottom: 0;*/
-/*}*/
+.footer {
+  position: absolute;
+  height: 60vw;
+  width: 100vw;
+  bottom: 0;
+}
 </style>
