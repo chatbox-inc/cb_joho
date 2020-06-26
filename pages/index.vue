@@ -9,37 +9,38 @@
       night: isNight
     }"
   >
-    <div class="header">
-      <div class="text-huge-0">
-        <p class="p-date">{{ getDate }}</p>
-      </div>
-      <div class="p-timer">
-        <input
-          id="select30"
-          v-model="alertFrequency"
-          type="radio"
-          name="time"
-          value="30"
-        />
-        <label for="select30">30min</label>
-        <input
-          id="select60"
-          v-model="alertFrequency"
-          type="radio"
-          name="time"
-          value="60"
-        />
-        <label for="select60">1h</label>
-        <input
-          id="select00"
-          v-model="alertFrequency"
-          type="radio"
-          name="time"
-          value="00"
-        />
-        <label for="select00">off</label>
-      </div>
-    </div>
+    <header-pc />
+    <!--    <div class="header">-->
+    <!--      <div class="text-huge-0">-->
+    <!--        <p class="p-date">{{ getDate }}</p>-->
+    <!--      </div>-->
+    <!--      <div class="p-timer">-->
+    <!--        <input-->
+    <!--          id="select30"-->
+    <!--          v-model="alertFrequency"-->
+    <!--          type="radio"-->
+    <!--          name="time"-->
+    <!--          value="30"-->
+    <!--        />-->
+    <!--        <label for="select30">30min</label>-->
+    <!--        <input-->
+    <!--          id="select60"-->
+    <!--          v-model="alertFrequency"-->
+    <!--          type="radio"-->
+    <!--          name="time"-->
+    <!--          value="60"-->
+    <!--        />-->
+    <!--        <label for="select60">1h</label>-->
+    <!--        <input-->
+    <!--          id="select00"-->
+    <!--          v-model="alertFrequency"-->
+    <!--          type="radio"-->
+    <!--          name="time"-->
+    <!--          value="00"-->
+    <!--        />-->
+    <!--        <label for="select00">off</label>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="p-time">
       <time class="text-huge-2">
         {{ currenTime }}
@@ -65,9 +66,12 @@
 </template>
 
 <script>
+import HeaderPc from '../components/common/TheHeaderPc.vue'
 import sound from '@/assets/sound/polly.mp3'
 export default {
-  components: {},
+  components: {
+    HeaderPc
+  },
   data() {
     return {
       currenTime: null,
@@ -173,32 +177,33 @@ export default {
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
-.header {
-  display: flex;
-  margin: 30px;
-}
-.p-date {
-  margin: 0 0 0 auto;
-}
-.p-timer {
-  margin-left: auto;
-  font-size: 32px;
-  input {
-    display: none;
-  }
-  label {
-    margin-right: 10px;
-  }
-  input[type='radio']:checked + label {
-    border-bottom: solid;
-    text-decoration-color: #303133;
-  }
-}
+/*.header {*/
+/*  display: flex;*/
+/*  margin: 30px;*/
+/*}*/
+/*.p-date {*/
+/*  margin: 0 0 0 auto;*/
+/*}*/
+/*.p-timer {*/
+/*  margin-left: auto;*/
+/*  font-size: 32px;*/
+/*  input {*/
+/*    display: none;*/
+/*  }*/
+/*  label {*/
+/*    margin-right: 10px;*/
+/*  }*/
+/*  input[type='radio']:checked + label {*/
+/*    border-bottom: solid;*/
+/*    text-decoration-color: #303133;*/
+/*  }*/
+/*}*/
 .p-time {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60vh;
+  font-size: 10vw;
 }
 .footer {
   position: absolute;
