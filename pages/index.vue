@@ -54,10 +54,12 @@
       <input id="mode" v-model="alertMode" type="checkbox" />
       <p>isMorning : {{ isMorning }}</p>
       <p>isAfternoon : {{ isAfternoon }}</p>
+      <p>isEvening : {{ isEvening }}</p>
+      <p>isNight : {{ isNight }}</p>
     </div>
 
     <div class="footer">
-      <img src="../assets/images/_e_town0080_svg_town0080_5.svg" />
+      <img src="../assets/images/town_pc.svg" />
     </div>
   </div>
 </template>
@@ -149,24 +151,24 @@ export default {
   font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif';
 }
 .morning {
-  background: -moz-linear-gradient(top, #96d3e8, #f7e8e6);
-  background: -webkit-linear-gradient(top, #96d3e8, #f7e8e6);
-  background: linear-gradient(to bottom, #96d3e8, #f7e8e6);
+  background: -moz-linear-gradient(top, #96d3e8, rgba(247, 232, 230, 0.9));
+  background: -webkit-linear-gradient(top, #96d3e8, rgba(247, 232, 230, 0.9));
+  background: linear-gradient(to bottom, #96d3e8, rgba(247, 232, 230, 0.9));
 }
 .afternoon {
-  background: -moz-linear-gradient(top, #95dafa, #f3fbfe);
-  background: -webkit-linear-gradient(top, #95dafa, #f3fbfe);
-  background: linear-gradient(to bottom, #95dafa, #f3fbfe);
+  background: -moz-linear-gradient(top, #95dafa, rgba(243, 251, 254, 0.9));
+  background: -webkit-linear-gradient(top, #95dafa, rgba(243, 251, 254, 0.9));
+  background: linear-gradient(to bottom, #95dafa, rgba(243, 251, 254, 0.9));
 }
 .evening {
-  background: -moz-linear-gradient(top, #7dc0de, #f1d5c3);
-  background: -webkit-linear-gradient(top, #7dc0de, #f1d5c3);
-  background: linear-gradient(to bottom, #7dc0de, #f1d5c3);
+  background: -moz-linear-gradient(top, #7dc0de, rgba(241, 213, 195, 0.9));
+  background: -webkit-linear-gradient(top, #7dc0de, rgba(241, 213, 195, 0.9));
+  background: linear-gradient(to bottom, #7dc0de, rgba(241, 213, 195, 0.9));
 }
 .night {
-  background: -moz-linear-gradient(top, #287598, #bed8de);
-  background: -webkit-linear-gradient(top, #287598, #bed8de);
-  background: linear-gradient(to bottom, #287598, #bed8de);
+  background: -moz-linear-gradient(top, #287598, rgba(190, 216, 222, 0.9));
+  background: -webkit-linear-gradient(top, #287598, rgba(190, 216, 222, 0.9));
+  background: linear-gradient(to bottom, #287598, rgba(190, 216, 222, 0.9));
 }
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -196,11 +198,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 60vh;
 }
 .footer {
   position: absolute;
-  height: 60vw;
+  height: 20vw;
   width: 100vw;
   bottom: 0;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    z-index: -1;
+  }
 }
 </style>
