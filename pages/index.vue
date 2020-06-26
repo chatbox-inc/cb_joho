@@ -202,7 +202,7 @@ export default {
 }
 .footer {
   position: absolute;
-  height: 20vw;
+  height: 21vw;
   width: 100vw;
   bottom: 0;
   img {
