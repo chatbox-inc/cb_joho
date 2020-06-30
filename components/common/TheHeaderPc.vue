@@ -1,33 +1,15 @@
 <template>
   <div>
     <div class="header">
-      <div class="text-huge-0">
-        <p class="p-date">{{ getDate }}</p>
-      </div>
+      <!--      <div class="text-huge-0">-->
+      <!--        <p class="p-date">{{ getDate }}</p>-->
+      <!--      </div>-->
       <div class="p-timer">
-        <input
-          id="select30"
-          v-model="alertFrequency"
-          type="radio"
-          name="time"
-          value="30"
-        />
+        <input id="select30" type="radio" name="time" @click="onAlert(30)" />
         <label for="select30">30min</label>
-        <input
-          id="select60"
-          v-model="alertFrequency"
-          type="radio"
-          name="time"
-          value="60"
-        />
+        <input id="select60" type="radio" name="time" @click="onAlert(60)" />
         <label for="select60">1h</label>
-        <input
-          id="select00"
-          v-model="alertFrequency"
-          type="radio"
-          name="time"
-          value="00"
-        />
+        <input id="select00" type="radio" name="time" @click="offAlert()" />
         <label for="select00">off</label>
       </div>
     </div>
@@ -35,7 +17,17 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    onAlert(alertFrequency) {
+      this.$parent.alertMode = true
+      this.$parent.alertFrequency = alertFrequency
+    },
+    offAlert() {
+      this.$parent.alertMode = false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
