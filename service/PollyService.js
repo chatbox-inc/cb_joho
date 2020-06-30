@@ -11,7 +11,7 @@ aws.config.update({
   region: process.env.AWS_DEFAULT_REGION
 })
 
-const polly = new aws.Polly({ region: process.env.AWS_DEFAULT_REGION })
+const polly = new aws.Polly()
 const params = {
   OutputFormat: 'mp3',
   Text: '12:55:55', // 出力される音声文字列
@@ -33,3 +33,34 @@ polly.synthesizeSpeech(params, function(err, data) {
     })
   }
 })
+
+/* これを用いれば、vue側で時刻の音声読み上げが可能
+* export const PollyService = {
+  timeVoice(currentTime) {
+    const params = {
+      OutputFormat: 'mp3',
+      Text: `${currentTime}です。`,
+      VoiceId: 'Mizuki',
+      SampleRate: '22050',
+      TextType: 'text',
+      LanguageCode: 'ja-JP'
+    }
+
+    const polly = new aws.Polly()
+    polly.synthesizeSpeech(params, function(err, data) {
+      if (!err) {
+        const elementId = 'audioElement'
+        const audioElement = document.createElement('audio')
+        audioElement.setAttribute('id', elementId)
+        document.body.appendChild(audioElement)
+        const uInt8Array = new Uint8Array(data.AudioStream)
+        const arrayBuffer = uInt8Array.buffer
+        const blob = new Blob([arrayBuffer])
+        const url = URL.createObjectURL(blob)
+        audioElement.src = url
+        audioElement.play()
+      }
+    })
+  }
+}
+* */
