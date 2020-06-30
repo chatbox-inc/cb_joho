@@ -1,22 +1,11 @@
 <template>
   <div class="p-container">
-    <TheHeader />
-    <div class="pt-24 bg-gray-100 flex-grow">
-      <nuxt />
-    </div>
-    <TheFooter />
+    <nuxt />
   </div>
 </template>
 
 <script>
-import TheHeader from '@/components/common/TheHeader'
-import TheFooter from '@/components/common/TheFooter'
-export default {
-  components: {
-    TheHeader,
-    TheFooter
-  }
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>
