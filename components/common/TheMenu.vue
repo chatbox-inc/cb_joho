@@ -1,10 +1,10 @@
 <template>
   <div
-    class="fixed w-full h-full top-0 left-0 flex items-center justify-center bg-white"
+    class="fixed w-full h-full top-0 l-menu left-0 flex items-center justify-center bg-white"
   >
     <div class="flex w-full h-full">
       <div class="l-menu__left"></div>
-      <div class=" bg-white  mx-auto rounded z-50 py-5 overflow-y-auto">
+      <div class="mx-auto rounded z-50 py-5 overflow-y-auto">
         <div class="l-menu__right text-left px-6">
           <div>
             <a href="#" @click.prevent="$emit('closeMenu')">
@@ -70,14 +70,22 @@ export default {
 
 <style lang="scss" scoped>
 .l-menu {
+  background-color: rgba(190, 223, 245, 0.65);
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.6),
+    rgba(190, 223, 245, 0.6)
+  );
+  background: linear-gradient(
+    rgba(191, 223, 247, 0.85) 0%,
+    hsla(204, 56%, 89%, 0.85) 63%
+  );
+  backdrop-filter: blur(2px);
   &__left {
-    background-color: #303133;
     opacity: 0.5;
-    width: 20vw;
   }
 
   &__right {
-    width: 80vw;
+    width: 100vw;
   }
 }
 
@@ -90,7 +98,7 @@ export default {
     content: '';
     width: 2px;
     height: 100%;
-    background-color: #e4e7ed;
+    background-color: #eceef2;
     display: block;
   }
   &__line {

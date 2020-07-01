@@ -1,14 +1,5 @@
 <template>
-  <div
-    v-if="currenTime"
-    class="main font-mono"
-    :class="{
-      morning: isMorning,
-      afternoon: isAfternoon,
-      evening: isEvening,
-      night: isNight
-    }"
-  >
+  <div v-if="currenTime" class="main font-mono" :class="actionClass">
     <transition
       name="side-menu"
       enter-active-class="animated slideInRight c-animation__in"
@@ -35,14 +26,11 @@
       <time class="lg:hidden text-xl">
         {{ currentDate }}
       </time>
-
       <time class="text-5xl lg:text-huge">
         {{ currenTime }}
       </time>
     </div>
-    <div class="footer">
-      <img src="@/assets/images/town_pc.svg" />
-    </div>
+    <div class="bg-auto p-main__bg bg-sp lg:bg-pc"></div>
   </div>
 </template>
 
@@ -75,6 +63,14 @@ export default {
     getDate() {
       const date = this.$dayjs().format('YYYY - MM - DD  dddd')
       return date
+    },
+    actionClass() {
+      return {
+        morning: this.isMorning,
+        afternoon: this.isAfternoon,
+        evening: this.isEvening,
+        night: this.isNight
+      }
     }
   },
   mounted() {
@@ -210,16 +206,29 @@ export default {
   }
 }
 
+.p-main {
+  &__bg {
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+    background-position: bottom;
+    background-repeat: no-repeat;
+  }
+}
+
 .c-animation__in {
-  -webkit-animation-name: slideinright;
-  animation-name: slideInRight;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
   -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
 }
 
 .c-animation__out {
-  -webkit-animation-name: slideoutright;
-  animation-name: slideOutRight;
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
   -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
 }

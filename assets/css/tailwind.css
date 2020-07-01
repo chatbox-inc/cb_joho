@@ -9,4 +9,12 @@
     font-size: 12.5rem;
   }
 
+  .bg-pc {
+    background-image:url("~assets/images/main/town_pc.svg")
+  }
+
+  .bg-sp {
+    background-image:url("~assets/images/main/town_sp.svg")
+  }
+
 }
