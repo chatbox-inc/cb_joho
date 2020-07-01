@@ -46,19 +46,6 @@
         {{ currenTime }}
       </time>
     </div>
-
-    <div class="boreder mt-10">
-      <h2 class="text-xl">Debug</h2>
-      <p>alertMode : {{ alertMode }}</p>
-      <p>alertFrequency : {{ alertFrequency }} minutes</p>
-      <label for="mode">音声お知らせ</label>
-      <input id="mode" v-model="alertMode" type="checkbox" />
-      <p>isMorning : {{ isMorning }}</p>
-      <p>isAfternoon : {{ isAfternoon }}</p>
-      <p>isEvening : {{ isEvening }}</p>
-      <p>isNight : {{ isNight }}</p>
-    </div>
-
     <div class="footer">
       <img src="../assets/images/town_pc.svg" />
     </div>
@@ -67,7 +54,9 @@
 
 <script>
 import HeaderPc from '../components/common/TheHeaderPc.vue'
-import sound from '@/assets/sound/polly.mp3'
+// import { PollyService } from '../service/PollyService.js'
+// import sound from '@/assets/sound/polly.mp3'
+
 export default {
   components: {
     HeaderPc
@@ -96,6 +85,8 @@ export default {
   },
   methods: {
     setTime() {
+      console.log('alertMode:', this.alertMode)
+      console.log('alertFrec:', this.alertFrequency)
       if (this.alertMode) {
         this.checkAlert(this.currenTime)
       }
@@ -103,22 +94,25 @@ export default {
       this.changeColor(this.currentTime)
     },
 
-    playSound() {
-      const audio = new Audio(sound)
-      audio.play()
+    playSound(currentTime) {
+      // const audio = new Audio(sound)
+      // audio.play()
+      // PollyService.timeVoice(currentTime)
     },
 
     checkAlert(currentTime) {
-      const eachTime = currentTime.split(':')
-      const minutes = eachTime[1]
-      if (
-        minutes % this.alertFrequency === 0 ||
-        minutes === this.alertFrequency
-      ) {
-        if (this.canAlert) this.playSound()
-        this.canAlert = false
-      } else {
-        this.canAlert = true
+      if (currentTime) {
+        const eachTime = currentTime.split(':')
+        const minutes = eachTime[1]
+        if (
+          minutes % this.alertFrequency === 0 ||
+          minutes === this.alertFrequency
+        ) {
+          if (this.canAlert) this.playSound(currentTime)
+          this.canAlert = false
+        } else {
+          this.canAlert = true
+        }
       }
     },
 
