@@ -26,15 +26,17 @@
     <the-header
       :frequency="alertFrequency"
       :alert-mode="alertMode"
+      :date="currentDate"
       @onAlert="onAlert"
       @offAlert="offAlert"
       @openMenu="openMenu"
     />
     <div class="p-time">
-      <time class="text-xl">
+      <time class="lg:hidden text-xl">
         {{ currentDate }}
       </time>
-      <time class="text-5xl">
+
+      <time class="text-5xl lg:text-huge">
         {{ currenTime }}
       </time>
     </div>

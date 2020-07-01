@@ -1,29 +1,29 @@
 <template>
   <div>
     <div class="header lg:flex">
-      <div class="hidden lg:block p-timer">
-        <div class="hidden lg:block">
-          <input
-            id="select30"
-            type="radio"
-            name="time"
+      <div class="hidden w-full lg:block lg:flex lg:justify-between p-timer">
+        <div>
+          {{ date }}
+        </div>
+        <div class="hidden lg:block l-box lg:text-center">
+          <a
+            href="#home"
+            class="w-20 inline-block"
             @click="$emit('onAlert', 30)"
-          />
-          <label for="select30">30min</label>
-          <input
-            id="select60"
-            type="radio"
-            name="time"
+          >
+            30min
+          </a>
+          <a
+            href="#about"
+            class="w-20 ml-8 inline-block"
             @click="$emit('onAlert', 60)"
-          />
-          <label for="select60">1h</label>
-          <input
-            id="select00"
-            type="radio"
-            name="time"
-            @click="$emit('offAlert')"
-          />
-          <label for="select00">off</label>
+          >
+            1h
+          </a>
+          <a href="#work" class="w-20 inline-block" @click="$emit('offAlert')">
+            off
+          </a>
+          <div class="l-box__line l-box__lineHome" :class="actionClass"></div>
         </div>
       </div>
       <div class="lg:hidden">
@@ -60,6 +60,10 @@ export default {
     alertMode: {
       type: Boolean,
       required: true
+    },
+    date: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -75,6 +79,14 @@ export default {
         default:
           return 'off'
       }
+    },
+
+    actionClass() {
+      return {
+        'c-active__30': this.frequency === 30 && this.alertMode,
+        'c-active__60': this.frequency === 60 && this.alertMode,
+        'c-active__off': !this.alertMode
+      }
     }
   }
 }
@@ -88,17 +100,37 @@ export default {
   margin: 0 0 0 auto;
 }
 .p-timer {
-  margin-left: auto;
   font-size: 32px;
-  input {
-    display: none;
+}
+
+.l-box {
+  position: relative;
+
+  &__line {
+    position: absolute;
+    width: 80px;
+    height: 2px;
+    bottom: -8px;
+    background-color: #303133;
   }
-  label {
-    margin-right: 10px;
+
+  &__lineHome {
+    left: 4%;
+    transition: 0.9s cubic-bezier(0.785, 0.135, 0.15, 0.86);
   }
-  input[type='radio']:checked + label {
-    border-bottom: solid;
-    text-decoration-color: #303133;
+}
+
+.c-active {
+  &__30 {
+    left: 4%;
+  }
+
+  &__60 {
+    left: 45%;
+  }
+
+  &__off {
+    left: 72%;
   }
 }
 </style>

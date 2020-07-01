@@ -32,6 +32,10 @@
               <li class="">
                 <a href="" @click.prevent="$emit('offAlert')">off</a>
               </li>
+              <li
+                class="l-list__line l-list__lineHome"
+                :class="activeFrequency"
+              ></li>
             </ol>
           </div>
         </div>
@@ -55,9 +59,9 @@ export default {
   computed: {
     activeFrequency() {
       return {
-        'l-active__off': !this.alertMode,
-        'l-active__30': this.frequency === 30 && this.alertMode,
-        'l-active__60': this.frequency === 60 && this.alertMode
+        'c-active__off': !this.alertMode,
+        'c-active__30': this.frequency === 30 && this.alertMode,
+        'c-active__60': this.frequency === 60 && this.alertMode
       }
     }
   }
@@ -89,35 +93,32 @@ export default {
     background-color: #e4e7ed;
     display: block;
   }
-
-  &:after {
+  &__line {
     position: absolute;
     left: 30px;
-    content: '';
     width: 2px;
     height: 30%;
     background-color: #409eff;
-    display: block;
+    margin: 0;
+  }
+
+  &__lineHome {
+    top: 0;
+    transition: 0.9s cubic-bezier(0.785, 0.135, 0.15, 0.86);
   }
 }
 
-.l-active {
+.c-active {
   &__30 {
-    &:after {
-      top: 0;
-    }
+    top: 0;
   }
 
   &__60 {
-    &:after {
-      top: 35%;
-    }
+    top: 35%;
   }
 
   &__off {
-    &:after {
-      bottom: 0;
-    }
+    top: 70%;
   }
 }
 </style>
