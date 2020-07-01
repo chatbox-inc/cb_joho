@@ -5,7 +5,6 @@
 @import 'tailwindcss/utilities';
 
 @responsive {
-    
   .text-huge-0 {
     font-size: 2rem;
   }
