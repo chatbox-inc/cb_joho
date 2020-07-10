@@ -5,20 +5,16 @@
 @import 'tailwindcss/utilities';
 
 @responsive {
-    
-  .text-huge-0 {
-    font-size: 2rem;
+  .text-huge {
+    font-size: 12.5rem;
   }
 
-  .text-huge-1 {
-      font-size:4rem;
+  .bg-pc {
+    background-image:url("~assets/images/main/town_pc.svg")
   }
 
-  .text-huge-2 {
-      font-size:10rem;
+  .bg-sp {
+    background-image:url("~assets/images/main/town_sp.svg")
   }
 
-  .text-huge-3 {
-      font-size:16rem
-  }
 }

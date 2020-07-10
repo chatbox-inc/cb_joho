@@ -25,6 +25,7 @@
   "dependencies": {
     "@nuxtjs/style-resources": "^1.0.0",
     "@nuxtjs/tailwindcss": "^1.0.0",
+    "animate.css": "^4.1.0",
     "aws-sdk": "^2.693.0",
     "dayjs": "^1.8.28",
     "dotenv": "^8.2.0",

@@ -1,92 +1,85 @@
 <template>
-  <div
-    v-if="currenTime"
-    class="main font-mono"
-    :class="{
-      morning: isMorning,
-      afternoon: isAfternoon,
-      evening: isEvening,
-      night: isNight
-    }"
-  >
-    <header-pc />
-    <!--    <div class="header">-->
-    <!--      <div class="text-huge-0">-->
-    <!--        <p class="p-date">{{ getDate }}</p>-->
-    <!--      </div>-->
-    <!--      <div class="p-timer">-->
-    <!--        <input-->
-    <!--          id="select30"-->
-    <!--          v-model="alertFrequency"-->
-    <!--          type="radio"-->
-    <!--          name="time"-->
-    <!--          value="30"-->
-    <!--        />-->
-    <!--        <label for="select30">30min</label>-->
-    <!--        <input-->
-    <!--          id="select60"-->
-    <!--          v-model="alertFrequency"-->
-    <!--          type="radio"-->
-    <!--          name="time"-->
-    <!--          value="60"-->
-    <!--        />-->
-    <!--        <label for="select60">1h</label>-->
-    <!--        <input-->
-    <!--          id="select00"-->
-    <!--          v-model="alertFrequency"-->
-    <!--          type="radio"-->
-    <!--          name="time"-->
-    <!--          value="00"-->
-    <!--        />-->
-    <!--        <label for="select00">off</label>-->
-    <!--      </div>-->
-    <!--    </div>-->
+  <div v-if="currenTime" class="main font-mono" :class="actionClass">
+    <transition
+      name="side-menu"
+      enter-active-class="animated slideInRight c-animation__in"
+      leave-active-class="animated slideOutRight c-animation__out"
+    >
+      <the-menu
+        v-if="showMenu"
+        :frequency="alertFrequency"
+        :alert-mode="alertMode"
+        @onAlert="onAlert"
+        @offAlert="offAlert"
+        @closeMenu="closeMenu"
+      />
+    </transition>
+    <the-header
+      :frequency="alertFrequency"
+      :alert-mode="alertMode"
+      :date="currentDate"
+      @onAlert="onAlert"
+      @offAlert="offAlert"
+      @openMenu="openMenu"
+    />
     <div class="p-time">
-      <time class="text-huge-2">
+      <time class="lg:hidden text-xl">
+        {{ currentDate }}
+      </time>
+      <time class="text-5xl lg:text-huge">
         {{ currenTime }}
       </time>
     </div>
-    <div class="footer">
-      <img src="../assets/images/town_pc.svg" />
-    </div>
+    <div class="bg-auto p-main__bg bg-sp lg:bg-pc"></div>
   </div>
 </template>
 
 <script>
-import HeaderPc from '../components/common/TheHeaderPc.vue'
+import TheHeader from '../components/common/TheHeader.vue'
+import TheMenu from '@/components/common/TheMenu'
 // import { PollyService } from '../service/PollyService.js'
 // import sound from '@/assets/sound/polly.mp3'
 
 export default {
   components: {
-    HeaderPc
+    TheHeader,
+    TheMenu
   },
   data() {
     return {
       currenTime: null,
+      currentDate: null,
       canAlert: true,
       alertMode: false,
       alertFrequency: 30,
-      isMorning: false,
+      isMorning: true,
       isAfternoon: false,
       isEvening: false,
-      isNight: true
+      isNight: false,
+      showMenu: false
     }
   },
   computed: {
     getDate() {
       const date = this.$dayjs().format('YYYY - MM - DD  dddd')
       return date
+    },
+    actionClass() {
+      return {
+        morning: this.isMorning,
+        afternoon: this.isAfternoon,
+        evening: this.isEvening,
+        night: this.isNight
+      }
     }
   },
   mounted() {
     this.currenTime = this.setTime()
+    this.currentDate = this.setDate()
     setInterval(() => this.setTime(), 1000)
   },
   methods: {
     setTime() {
-      console.log('alertMode:', this.alertMode)
-      console.log('alertFrec:', this.alertFrequency)
       if (this.alertMode) {
         this.checkAlert(this.currenTime)
       }
@@ -94,10 +87,30 @@ export default {
       this.changeColor(this.currentTime)
     },
 
+    setDate() {
+      return this.$dayjs().format('YYYY - MM - DD ddd')
+    },
+
     playSound(currentTime) {
       // const audio = new Audio(sound)
       // audio.play()
       // PollyService.timeVoice(currentTime)
+    },
+
+    openMenu() {
+      this.showMenu = true
+    },
+
+    closeMenu() {
+      this.showMenu = false
+    },
+
+    onAlert(alertFrequency) {
+      this.alertMode = true
+      this.alertFrequency = alertFrequency
+    },
+    offAlert() {
+      this.alertMode = false
     },
 
     checkAlert(currentTime) {
@@ -116,10 +129,9 @@ export default {
       }
     },
 
-    changeColor(currentTime2) {
-      const test = this.$dayjs().format('HH:mm:ss')
-      switch (test) {
-        case '5:00:00':
+    changeColor(currentTime) {
+      switch (currentTime) {
+        case '05:00:00':
           this.isMorning = true
           this.isNight = false
           break
@@ -171,31 +183,12 @@ export default {
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
-/*.header {*/
-/*  display: flex;*/
-/*  margin: 30px;*/
-/*}*/
-/*.p-date {*/
-/*  margin: 0 0 0 auto;*/
-/*}*/
-/*.p-timer {*/
-/*  margin-left: auto;*/
-/*  font-size: 32px;*/
-/*  input {*/
-/*    display: none;*/
-/*  }*/
-/*  label {*/
-/*    margin-right: 10px;*/
-/*  }*/
-/*  input[type='radio']:checked + label {*/
-/*    border-bottom: solid;*/
-/*    text-decoration-color: #303133;*/
-/*  }*/
-/*}*/
+
 .p-time {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 60vh;
   font-size: 10vw;
 }
@@ -211,5 +204,32 @@ export default {
     width: auto;
     z-index: -1;
   }
+}
+
+.p-main {
+  &__bg {
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+    background-position: bottom;
+    background-repeat: no-repeat;
+  }
+}
+
+.c-animation__in {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+}
+
+.c-animation__out {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 </style>
