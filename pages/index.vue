@@ -35,10 +35,8 @@
 </template>
 
 <script>
-import TheHeader from '../components/common/TheHeader.vue'
+import TheHeader from '@/components/common/TheHeader.vue'
 import TheMenu from '@/components/common/TheMenu'
-// import { PollyService } from '../service/PollyService.js'
-// import sound from '@/assets/sound/polly.mp3'
 
 export default {
   components: {
@@ -91,10 +89,10 @@ export default {
       return this.$dayjs().format('YYYY - MM - DD ddd')
     },
 
-    playSound(currentTime) {
-      // const audio = new Audio(sound)
-      // audio.play()
-      // PollyService.timeVoice(currentTime)
+    playSound(hour, minute) {
+      const sound = require(`@/assets/sound/${hour}${minute}.mp3`)
+      const audio = new Audio(sound)
+      audio.play()
     },
 
     openMenu() {
@@ -116,12 +114,13 @@ export default {
     checkAlert(currentTime) {
       if (currentTime) {
         const eachTime = currentTime.split(':')
-        const minutes = eachTime[1]
+        const minute = eachTime[1]
+        const hour = eachTime[0]
         if (
-          minutes % this.alertFrequency === 0 ||
-          minutes === this.alertFrequency
+          minute % this.alertFrequency === 0 ||
+          minute === this.alertFrequency
         ) {
-          if (this.canAlert) this.playSound(currentTime)
+          if (this.canAlert) this.playSound(hour, minute)
           this.canAlert = false
         } else {
           this.canAlert = true
