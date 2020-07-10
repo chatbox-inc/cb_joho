@@ -12,55 +12,34 @@ aws.config.update({
 })
 
 const polly = new aws.Polly()
-const params = {
-  OutputFormat: 'mp3',
-  Text: '12:55:55', // 出力される音声文字列
-  VoiceId: 'Mizuki',
-  SampleRate: '22050',
-  TextType: 'text',
-  LanguageCode: 'ja-JP'
-}
-const filePath = '../assets/sound/polly.mp3'
 
-polly.synthesizeSpeech(params, function(err, data) {
-  if (err) {
-    console.log(err, err.stack)
-  } else if (data.AudioStream instanceof Buffer) {
-    fs.writeFile(filePath, data.AudioStream, (fsErr) => {
-      if (fsErr) {
-        console.error(err)
-      }
-    })
+for (let time = 0; time < 48; time++) {
+  let hour = Math.floor(time / 2)
+  if (hour < 10) hour = `0${hour}`
+  else hour = `${hour}`
+
+  const minute = time % 2 === 0 ? '00' : '30'
+
+  const params = {
+    OutputFormat: 'mp3',
+    Text: `${hour}:${minute}:00です`, // 出力される音声文字列
+    VoiceId: 'Mizuki',
+    SampleRate: '22050',
+    TextType: 'text',
+    LanguageCode: 'ja-JP'
   }
-})
 
-/* これを用いれば、vue側で時刻の音声読み上げが可能
-* export const PollyService = {
-  timeVoice(currentTime) {
-    const params = {
-      OutputFormat: 'mp3',
-      Text: `${currentTime}です。`,
-      VoiceId: 'Mizuki',
-      SampleRate: '22050',
-      TextType: 'text',
-      LanguageCode: 'ja-JP'
+  const filePath = `../assets/sound/${hour}${minute}.mp3`
+
+  polly.synthesizeSpeech(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack)
+    } else if (data.AudioStream instanceof Buffer) {
+      fs.writeFile(filePath, data.AudioStream, (fsErr) => {
+        if (fsErr) {
+          console.error(err)
+        }
+      })
     }
-
-    const polly = new aws.Polly()
-    polly.synthesizeSpeech(params, function(err, data) {
-      if (!err) {
-        const elementId = 'audioElement'
-        const audioElement = document.createElement('audio')
-        audioElement.setAttribute('id', elementId)
-        document.body.appendChild(audioElement)
-        const uInt8Array = new Uint8Array(data.AudioStream)
-        const arrayBuffer = uInt8Array.buffer
-        const blob = new Blob([arrayBuffer])
-        const url = URL.createObjectURL(blob)
-        audioElement.src = url
-        audioElement.play()
-      }
-    })
-  }
+  })
 }
-* */
