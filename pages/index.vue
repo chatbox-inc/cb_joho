@@ -94,12 +94,12 @@ export default {
     },
 
     playSound(hour, minute) {
-      const sound = require(`@/assets/sound/${hour}${minute}.mp3`)
+      const sound = require(`@/static/sound/${hour}${minute}.mp3`)
       const audio = new Audio(sound)
       audio.play()
     },
     slideSound() {
-      const sound = require(`@/assets/sound/slide.mp3`)
+      const sound = require(`@/static/sound/slide.mp3`)
       const audio = new Audio(sound)
       audio.play()
     },
