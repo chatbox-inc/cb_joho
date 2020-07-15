@@ -74,6 +74,10 @@ export default {
   mounted() {
     this.currenTime = this.setTime()
     this.currentDate = this.setDate()
+    this.alertMode = localStorage.alertMode === 'true'
+    this.alertFrequency = localStorage.alertFrequency
+      ? parseInt(localStorage.alertFrequency, 10)
+      : 30
     setInterval(() => this.setTime(), 1000)
   },
   methods: {
@@ -90,12 +94,12 @@ export default {
     },
 
     playSound(hour, minute) {
-      const sound = require(`@/assets/sound/${hour}${minute}.mp3`)
+      const sound = require(`@/static/sound/${hour}${minute}.mp3`)
       const audio = new Audio(sound)
       audio.play()
     },
     slideSound() {
-      const sound = require(`@/assets/sound/slide.mp3`)
+      const sound = require(`@/static/sound/slide.mp3`)
       const audio = new Audio(sound)
       audio.play()
     },
@@ -112,10 +116,12 @@ export default {
       this.alertMode = true
       this.alertFrequency = alertFrequency
       this.slideSound()
+      this.persist()
     },
     offAlert() {
       this.alertMode = false
       this.slideSound()
+      this.persist()
     },
 
     checkAlert(currentTime) {
@@ -154,6 +160,10 @@ export default {
           this.isEvening = false
           break
       }
+    },
+    persist() {
+      localStorage.alertMode = this.alertMode
+      localStorage.alertFrequency = this.alertFrequency
     }
   }
 }

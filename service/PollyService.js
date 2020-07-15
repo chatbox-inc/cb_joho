@@ -29,7 +29,7 @@ for (let time = 0; time < 48; time++) {
     LanguageCode: 'ja-JP'
   }
 
-  const filePath = `../assets/sound/${hour}${minute}.mp3`
+  const filePath = `../static/sound/${hour}${minute}.mp3`
 
   polly.synthesizeSpeech(params, function(err, data) {
     if (err) {
