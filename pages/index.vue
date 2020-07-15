@@ -94,6 +94,11 @@ export default {
       const audio = new Audio(sound)
       audio.play()
     },
+    slideSound() {
+      const sound = require(`@/assets/sound/slide.mp3`)
+      const audio = new Audio(sound)
+      audio.play()
+    },
 
     openMenu() {
       this.showMenu = true
@@ -106,9 +111,11 @@ export default {
     onAlert(alertFrequency) {
       this.alertMode = true
       this.alertFrequency = alertFrequency
+      this.slideSound()
     },
     offAlert() {
       this.alertMode = false
+      this.slideSound()
     },
 
     checkAlert(currentTime) {
