@@ -109,11 +109,7 @@ export default {
       const audio = new Audio(sound)
       audio.play()
 
-      setInterval(
-        // TODO 一度再生した後に、再度muted=trueにする必要性がある
-        () => this.testSound(audio, this.currenTime),
-        1000
-      )
+      setInterval(() => this.testSound(audio, this.currenTime), 1000)
       /*  sound.jsを用いた場合
       if (process.client) {
         require('@/service/sound.js')
@@ -121,7 +117,6 @@ export default {
         // window.wa = wa
         wa.playSilent()
         setInterval(
-          // TODO 一度再生した後に、再度muted=trueにする必要性がある
           () => this.testSound(wa, this.currenTime),
           1000
         )
