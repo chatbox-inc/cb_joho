@@ -31,6 +31,9 @@
       </time>
     </div>
     <div class="bg-auto p-main__bg bg-sp lg:bg-pc"></div>
+    <button v-if="alertMode" class="p-button" @click="playSound">
+      音声の再生を始めます
+    </button>
   </div>
 </template>
 
@@ -82,9 +85,11 @@ export default {
   },
   methods: {
     setTime() {
+      /*
       if (this.alertMode) {
         this.checkAlert(this.currenTime)
       }
+       */
       this.currenTime = this.$dayjs().format('HH:mm:ss')
       this.changeColor(this.currentTime)
     },
@@ -92,12 +97,89 @@ export default {
     setDate() {
       return this.$dayjs().format('YYYY - MM - DD ddd')
     },
-
+    /*
     playSound(hour, minute) {
       const sound = require(`@/static/sound/${hour}${minute}.mp3`)
       const audio = new Audio(sound)
       audio.play()
+
+    } */
+    playSound() {
+      const sound = require(`@/static/sound/0000.mp3`)
+      const audio = new Audio(sound)
+      audio.play()
+
+      setInterval(
+        // TODO 一度再生した後に、再度muted=trueにする必要性がある
+        () => this.testSound(audio, this.currenTime),
+        1000
+      )
+      /*  sound.jsを用いた場合
+      if (process.client) {
+        require('@/service/sound.js')
+        // wa._initialize() // audioContextを新規作成
+        // window.wa = wa
+        wa.playSilent()
+        setInterval(
+          // TODO 一度再生した後に、再度muted=trueにする必要性がある
+          () => this.testSound(wa, this.currenTime),
+          1000
+        )
+      }
+      */
+      /*
+      スマホ側で音声が再生しない_インスタンスは同じ
+      const context = new (window.AudioContext || window.webkitAudioContext)
+      const soundSrc = require(`@/static/sound/slide.mp3`)
+      this.alertVoice(context, soundSrc)
+      */
     },
+    testSound(context, currentTime) {
+      if (this.alertMode) {
+        const eachTime = currentTime.split(':')
+        const minute = eachTime[1]
+        console.log(
+          `this.alertFrequency: ${this.alertFrequency}, minute: ${minute}`
+        )
+        // const hour = eachTime[0]
+        if (
+          minute % this.alertFrequency === 0 ||
+          minute === this.alertFrequency
+        ) {
+          // const soundSrc = require(`@/static/sound/${hour}${minute}.mp3`)
+          /* sound.jsを用いる場合
+          context.loadFile(soundSrc, function(buffer) {
+            context.play(buffer)
+          })
+          */
+          /* スマホ側で音声されない_インスタンスは同じ
+          this.alertVoice(context, soundSrc)
+          */
+          context.play()
+        }
+      }
+    },
+    /*
+    alertVoice(context, soundSrc) {
+      スマホ側で音声されない_インスタンスは同じ
+      const source = context.createBufferSource()
+
+      const request = new XMLHttpRequest()
+      request.open('GET', soundSrc, true)
+      request.responseType = 'arraybuffer'
+      request.send()
+
+      request.onload = function() {
+        const res = request.response
+        context.decodeAudioData(res, function(buf) {
+          source.buffer = buf
+        })
+      }
+
+      source.connect(context.destination)
+      source.start(0)
+    },
+    */
     slideSound() {
       const sound = require(`@/static/sound/slide.mp3`)
       const audio = new Audio(sound)
@@ -123,7 +205,7 @@ export default {
       this.slideSound()
       this.persist()
     },
-
+    /*
     checkAlert(currentTime) {
       if (currentTime) {
         const eachTime = currentTime.split(':')
@@ -140,7 +222,7 @@ export default {
         }
       }
     },
-
+    */
     changeColor(currentTime) {
       switch (currentTime) {
         case '05:00:00':
@@ -247,5 +329,11 @@ export default {
   animation-name: fadeOut;
   -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+}
+
+.p-button {
+  width: 100px;
+  height: 100px;
+  background-color: red;
 }
 </style>
