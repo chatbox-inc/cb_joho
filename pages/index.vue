@@ -31,6 +31,9 @@
       </time>
     </div>
     <div class="bg-auto p-main__bg bg-sp lg:bg-pc"></div>
+    <button v-if="isButton" class="p-button" @click="playSound">
+      音声の再生を始めます
+    </button>
   </div>
 </template>
 
@@ -54,7 +57,8 @@ export default {
       isAfternoon: false,
       isEvening: false,
       isNight: false,
-      showMenu: false
+      showMenu: false,
+      isTouched: false
     }
   },
   computed: {
@@ -69,6 +73,9 @@ export default {
         evening: this.isEvening,
         night: this.isNight
       }
+    },
+    isButton() {
+      return this.alertMode && !this.isTouched
     }
   },
   mounted() {
@@ -82,9 +89,11 @@ export default {
   },
   methods: {
     setTime() {
+      /*
       if (this.alertMode) {
         this.checkAlert(this.currenTime)
       }
+       */
       this.currenTime = this.$dayjs().format('HH:mm:ss')
       this.changeColor(this.currentTime)
     },
@@ -92,12 +101,52 @@ export default {
     setDate() {
       return this.$dayjs().format('YYYY - MM - DD ddd')
     },
-
+    /*
     playSound(hour, minute) {
       const sound = require(`@/static/sound/${hour}${minute}.mp3`)
       const audio = new Audio(sound)
       audio.play()
+
+    } */
+    playSound() {
+      this.isTouched = true
+      const sounds = {}
+      for (let time = 0; time < 48; time++) {
+        /* 時報に必要なAudioインスタンスを、soundsオブジェクトに格納している */
+        let hour = Math.floor(time / 2)
+        if (hour < 10) hour = `0${hour}`
+        else hour = `${hour}`
+
+        const minute = time % 2 === 0 ? '00' : '30'
+
+        const soundSrc = require(`@/static/sound/${hour}${minute}.mp3`)
+        const sound = new Audio(soundSrc)
+        sounds[`${hour}${minute}`] = sound
+      }
+
+      setInterval(() => this.alertSound(sounds, this.currenTime), 1000)
     },
+
+    alertSound(sounds, currentTime) {
+      if (this.alertMode) {
+        const eachTime = currentTime.split(':')
+        const minute = eachTime[1]
+        const hour = eachTime[0]
+        if (
+          minute % this.alertFrequency === 0 ||
+          minute === this.alertFrequency
+        ) {
+          if (this.canAlert) {
+            const param = `${hour}${minute}`
+            sounds[param].play()
+            this.canAlert = false
+          }
+        } else {
+          this.canAlert = true
+        }
+      }
+    },
+
     slideSound() {
       const sound = require(`@/static/sound/slide.mp3`)
       const audio = new Audio(sound)
@@ -123,7 +172,7 @@ export default {
       this.slideSound()
       this.persist()
     },
-
+    /*
     checkAlert(currentTime) {
       if (currentTime) {
         const eachTime = currentTime.split(':')
@@ -140,7 +189,7 @@ export default {
         }
       }
     },
-
+    */
     changeColor(currentTime) {
       switch (currentTime) {
         case '05:00:00':
@@ -247,5 +296,11 @@ export default {
   animation-name: fadeOut;
   -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+}
+
+.p-button {
+  width: 100px;
+  height: 100px;
+  background-color: red;
 }
 </style>
