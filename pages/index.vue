@@ -31,7 +31,7 @@
       </time>
     </div>
     <div class="bg-auto p-main__bg bg-sp lg:bg-pc"></div>
-    <button v-if="alertMode" class="p-button" @click="playSound">
+    <button v-if="isButton" class="p-button" @click="playSound">
       音声の再生を始めます
     </button>
   </div>
@@ -57,7 +57,8 @@ export default {
       isAfternoon: false,
       isEvening: false,
       isNight: false,
-      showMenu: false
+      showMenu: false,
+      isTouched: false
     }
   },
   computed: {
@@ -72,6 +73,9 @@ export default {
         evening: this.isEvening,
         night: this.isNight
       }
+    },
+    isButton() {
+      return this.alertMode && !this.isTouched
     }
   },
   mounted() {
@@ -105,76 +109,44 @@ export default {
 
     } */
     playSound() {
-      const sound = require(`@/static/sound/0000.mp3`)
-      const audio = new Audio(sound)
-      audio.play()
+      this.isTouched = true
+      const sounds = {}
+      for (let time = 0; time < 48; time++) {
+        /* 時報に必要なAudioインスタンスを、soundsオブジェクトに格納している */
+        let hour = Math.floor(time / 2)
+        if (hour < 10) hour = `0${hour}`
+        else hour = `${hour}`
 
-      setInterval(() => this.testSound(audio, this.currenTime), 1000)
-      /*  sound.jsを用いた場合
-      if (process.client) {
-        require('@/service/sound.js')
-        // wa._initialize() // audioContextを新規作成
-        // window.wa = wa
-        wa.playSilent()
-        setInterval(
-          () => this.testSound(wa, this.currenTime),
-          1000
-        )
+        const minute = time % 2 === 0 ? '00' : '30'
+
+        const soundSrc = require(`@/static/sound/${hour}${minute}.mp3`)
+        const sound = new Audio(soundSrc)
+        sounds[`${hour}${minute}`] = sound
       }
-      */
-      /*
-      スマホ側で音声が再生しない_インスタンスは同じ
-      const context = new (window.AudioContext || window.webkitAudioContext)
-      const soundSrc = require(`@/static/sound/slide.mp3`)
-      this.alertVoice(context, soundSrc)
-      */
+
+      setInterval(() => this.alertSound(sounds, this.currenTime), 1000)
     },
-    testSound(context, currentTime) {
+
+    alertSound(sounds, currentTime) {
       if (this.alertMode) {
         const eachTime = currentTime.split(':')
         const minute = eachTime[1]
-        console.log(
-          `this.alertFrequency: ${this.alertFrequency}, minute: ${minute}`
-        )
-        // const hour = eachTime[0]
+        const hour = eachTime[0]
         if (
           minute % this.alertFrequency === 0 ||
           minute === this.alertFrequency
         ) {
-          // const soundSrc = require(`@/static/sound/${hour}${minute}.mp3`)
-          /* sound.jsを用いる場合
-          context.loadFile(soundSrc, function(buffer) {
-            context.play(buffer)
-          })
-          */
-          /* スマホ側で音声されない_インスタンスは同じ
-          this.alertVoice(context, soundSrc)
-          */
-          context.play()
+          if (this.canAlert) {
+            const param = `${hour}${minute}`
+            sounds[param].play()
+            this.canAlert = false
+          }
+        } else {
+          this.canAlert = true
         }
       }
     },
-    /*
-    alertVoice(context, soundSrc) {
-      スマホ側で音声されない_インスタンスは同じ
-      const source = context.createBufferSource()
 
-      const request = new XMLHttpRequest()
-      request.open('GET', soundSrc, true)
-      request.responseType = 'arraybuffer'
-      request.send()
-
-      request.onload = function() {
-        const res = request.response
-        context.decodeAudioData(res, function(buf) {
-          source.buffer = buf
-        })
-      }
-
-      source.connect(context.destination)
-      source.start(0)
-    },
-    */
     slideSound() {
       const sound = require(`@/static/sound/slide.mp3`)
       const audio = new Audio(sound)
