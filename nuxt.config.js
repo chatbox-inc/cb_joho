@@ -37,7 +37,7 @@ export default {
    */
   /* modules: ['@nuxtjs/tailwindcss'], */
 
-  buildModules: ['@nuxtjs/tailwindcss'],
+  buildModules: ['@nuxtjs/tailwindcss', '@nuxtjs/pwa'],
   tailwindcss: {
     configPath: '~/config/tailwind.config.js',
     cssPath: '~/assets/css/tailwind.css',
@@ -58,6 +58,27 @@ export default {
           name: '[path][name].[ext]'
         }
       })
+    }
+  },
+  /*
+   ** PWAの設定
+   */
+  pwa: {
+    manifest: {
+      name: '時報', // アプリの名称
+      short_name: '時報アプリ', // ホーム画面に表示される名称
+      display: 'standalone', // 表示モード  'fullscreen' 'standalone' 'minimal-ui' 'browser'
+      theme_color: '#5BA9FF', // アプリケーションの既定のテーマ色を定義
+      background_color: '#ffdce6', // 背景の色
+      lang: 'ja', // 言語
+      start_url: '/', // アイコンから起動した時のURL
+      icons: [
+        {
+          src: '@/static/icon.png',
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ]
     }
   }
 }
